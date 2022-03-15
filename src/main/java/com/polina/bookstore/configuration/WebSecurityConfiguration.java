@@ -39,7 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/websocket", "/websocket/**",
                         "/img/**",
                         "/static/**").permitAll()
-                .antMatchers("/auth/**", "/oauth2/**", "/**/*swagger*/**", "/v2/api-docs").permitAll()
+                .antMatchers("/auth/**", "/oauth2/**", "/**/*swagger*/**", "/v3/api-docs").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(jwtConfigurer)
