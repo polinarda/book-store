@@ -1,6 +1,6 @@
 package com.polina.bookstore.dto.user;
 
-import com.gmail.merikbest2015.ecommerce.domain.Role;
+import com.polina.bookstore.domain.Role;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -20,9 +20,5 @@ public class UserRequest {
     private String address;
     private String phoneNumber;
     private String postIndex;
-    private String provider;
-    private boolean active;
-    private String activationCode;
-    private String passwordResetCode;
     private Set<Role> roles;
 }

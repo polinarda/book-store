@@ -1,8 +1,6 @@
 package com.polina.bookstore.configuration;
 
-import com.gmail.merikbest2015.ecommerce.security.oauth2.CustomOAuth2UserService;
-import com.gmail.merikbest2015.ecommerce.security.JwtConfigurer;
-import com.gmail.merikbest2015.ecommerce.security.oauth2.OAuth2SuccessHandler;
+import com.polina.bookstore.security.JwtConfigurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
@@ -20,8 +20,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtConfigurer jwtConfigurer;
-    private final OAuth2SuccessHandler oauthSuccessHandler;
-    private final CustomOAuth2UserService oAuth2UserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -34,7 +32,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/auth/**",
                         "/api/v1/auth/login",
                         "/api/v1/registration/**",
-                        "/api/v1/perfumes/**",
+                        "/api/v1/books/**",
                         "/api/v1/users/cart",
                         "/api/v1/users/order/**",
                         "/api/v1/users/review",
@@ -44,14 +42,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**", "/oauth2/**", "/**/*swagger*/**", "/v2/api-docs").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .oauth2Login()
-                .authorizationEndpoint().baseUri("/oauth2/authorize")
-                .and()
-                .userInfoEndpoint().userService(oAuth2UserService)
-                .and()
-                .successHandler(oauthSuccessHandler)
-                .and()
-                .apply(jwtConfigurer);
+                .apply(jwtConfigurer)
+                ;
     }
 
     @Bean
@@ -59,4 +51,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

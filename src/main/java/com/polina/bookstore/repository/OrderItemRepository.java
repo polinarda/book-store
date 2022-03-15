@@ -1,6 +1,6 @@
 package com.polina.bookstore.repository;
 
-import com.gmail.merikbest2015.ecommerce.domain.OrderItem;
+import com.polina.bookstore.domain.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

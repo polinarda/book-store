@@ -1,20 +1,17 @@
 package com.polina.bookstore.service.Impl;
 
-import com.gmail.merikbest2015.ecommerce.domain.Order;
-import com.gmail.merikbest2015.ecommerce.domain.OrderItem;
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.repository.OrderItemRepository;
-import com.gmail.merikbest2015.ecommerce.repository.OrderRepository;
-import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
-import com.gmail.merikbest2015.ecommerce.service.OrderService;
-import com.gmail.merikbest2015.ecommerce.service.email.MailSender;
-import graphql.schema.DataFetcher;
+import com.polina.bookstore.domain.Order;
+import com.polina.bookstore.domain.OrderItem;
+import com.polina.bookstore.domain.Book;
+import com.polina.bookstore.repository.OrderItemRepository;
+import com.polina.bookstore.repository.OrderRepository;
+import com.polina.bookstore.repository.BookRepository;
+import com.polina.bookstore.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,26 +21,13 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final PerfumeRepository perfumeRepository;
-    private final MailSender mailSender;
+    private final BookRepository bookRepository;
 
     @Override
     public List<Order> findAll() {
         return orderRepository.findAllByOrderByIdAsc();
     }
 
-    @Override
-    public DataFetcher<List<Order>> getAllOrdersByQuery() {
-        return dataFetchingEnvironment -> orderRepository.findAllByOrderByIdAsc();
-    }
-
-    @Override
-    public DataFetcher<List<Order>> getUserOrdersByEmailQuery() {
-        return dataFetchingEnvironment -> {
-            String email = dataFetchingEnvironment.getArgument("email").toString();
-            return orderRepository.findOrderByEmail(email);
-        };
-    }
 
     @Override
     public List<Order> findOrderByEmail(String email) {
@@ -52,15 +36,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order postOrder(Order validOrder, Map<Long, Long> perfumesId) {
+    public Order postOrder(Order validOrder, Map<Long, Long> bookIds) {
         Order order = new Order();
         List<OrderItem> orderItemList = new ArrayList<>();
 
-        for (Map.Entry<Long, Long> entry : perfumesId.entrySet()) {
-            Perfume perfume = perfumeRepository.findById(entry.getKey()).get();
+        for (Map.Entry<Long, Long> entry : bookIds.entrySet()) {
+            Book book = bookRepository.findById(entry.getKey()).get();
             OrderItem orderItem = new OrderItem();
-            orderItem.setPerfume(perfume);
-            orderItem.setAmount((perfume.getPrice() * entry.getValue()));
+            orderItem.setBook(book);
+            orderItem.setAmount((book.getPrice() * entry.getValue()));
             orderItem.setQuantity(entry.getValue());
             orderItemList.add(orderItem);
             orderItemRepository.save(orderItem);
@@ -75,12 +59,6 @@ public class OrderServiceImpl implements OrderService {
         order.setEmail(validOrder.getEmail());
         order.setPhoneNumber(validOrder.getPhoneNumber());
         orderRepository.save(order);
-
-        String subject = "Order #" + order.getId();
-        String template = "order-template";
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("order", order);
-        mailSender.sendMessageHtml(order.getEmail(), subject, template, attributes);
         return order;
     }
 

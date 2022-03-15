@@ -12,7 +12,7 @@ import java.util.Map;
 public class OrderRequest {
 
     private Double totalPrice;
-    private Map<Long, Long> perfumesId;
+    private Map<Long, Long> bookIds;
 
     @NotBlank(message = "Fill in the input field")
     private String firstName;
@@ -34,6 +34,6 @@ public class OrderRequest {
     private String phoneNumber;
 
     @NotNull(message = "Post index cannot be empty")
-    @Min(value = 5, message = "Post index must contain 5 digits")
+    @Min(value = 6, message = "Post index must contain 6 digits")
     private Integer postIndex;
 }

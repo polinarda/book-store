@@ -13,8 +13,7 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orders_seq")
-    @SequenceGenerator(name = "orders_seq", sequenceName = "orders_seq", initialValue = 6, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Double totalPrice;
     private LocalDate date;

@@ -1,11 +1,9 @@
 package com.polina.bookstore.mapper;
 
-import com.gmail.merikbest2015.ecommerce.dto.PasswordResetRequest;
-import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequest;
-import com.gmail.merikbest2015.ecommerce.dto.auth.AuthenticationRequest;
-import com.gmail.merikbest2015.ecommerce.dto.auth.AuthenticationResponse;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
-import com.gmail.merikbest2015.ecommerce.service.AuthenticationService;
+import com.polina.bookstore.dto.RegistrationRequest;
+import com.polina.bookstore.dto.auth.AuthenticationRequest;
+import com.polina.bookstore.dto.auth.AuthenticationResponse;
+import com.polina.bookstore.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,23 +25,8 @@ public class AuthenticationMapper {
         return response;
     }
 
-    public UserResponse findByPasswordResetCode(String code) {
-        return userMapper.convertToResponseDto(authenticationService.findByPasswordResetCode(code));
-    }
 
-    public String registerUser(String captcha, RegistrationRequest registrationRequest) {
-        return authenticationService.registerUser(userMapper.convertToEntity(registrationRequest), captcha, registrationRequest.getPassword2());
-    }
-
-    public String activateUser(String code) {
-        return authenticationService.activateUser(code);
-    }
-
-    public String sendPasswordResetCode(String email) {
-        return authenticationService.sendPasswordResetCode(email);
-    }
-
-    public String passwordReset(String email, PasswordResetRequest passwordReset) {
-        return authenticationService.passwordReset(email, passwordReset.getPassword(), passwordReset.getPassword2());
+    public String registerUser( RegistrationRequest registrationRequest) {
+        return authenticationService.registerUser(userMapper.convertToEntity(registrationRequest), registrationRequest.getPassword2());
     }
 }

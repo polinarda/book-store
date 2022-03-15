@@ -1,6 +1,6 @@
 package com.polina.bookstore.repository;
 
-import com.gmail.merikbest2015.ecommerce.domain.User;
+import com.polina.bookstore.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,9 +11,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByOrderByIdAsc();
 
-    User findByActivationCode(String code);
-
     User findByEmail(String email);
-
-    User findByPasswordResetCode(String code);
 }

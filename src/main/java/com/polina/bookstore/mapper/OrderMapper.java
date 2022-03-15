@@ -1,9 +1,9 @@
 package com.polina.bookstore.mapper;
 
-import com.gmail.merikbest2015.ecommerce.domain.Order;
-import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequest;
-import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponse;
-import com.gmail.merikbest2015.ecommerce.service.OrderService;
+import com.polina.bookstore.domain.Order;
+import com.polina.bookstore.dto.order.OrderRequest;
+import com.polina.bookstore.dto.order.OrderResponse;
+import com.polina.bookstore.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -45,6 +45,6 @@ public class OrderMapper {
     }
 
     public OrderResponse postOrder(OrderRequest orderRequest) {
-        return convertToResponseDto(orderService.postOrder(convertToEntity(orderRequest), orderRequest.getPerfumesId()));
+        return convertToResponseDto(orderService.postOrder(convertToEntity(orderRequest), orderRequest.getBookIds()));
     }
 }

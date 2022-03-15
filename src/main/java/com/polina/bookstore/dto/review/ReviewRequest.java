@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class ReviewRequest {
 
-    private Long perfumeId;
+    private Long bookId;
 
     @NotBlank(message = "Fill in the input field")
     private String author;

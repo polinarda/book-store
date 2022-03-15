@@ -1,7 +1,7 @@
 package com.polina.bookstore.security;
 
-import com.gmail.merikbest2015.ecommerce.domain.User;
-import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
+import com.polina.bookstore.domain.User;
+import com.polina.bookstore.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,9 +21,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
-        }
-        if (user.getActivationCode() != null) {
-            throw new LockedException("email not activated");
         }
         return UserPrincipal.create(user);
     }

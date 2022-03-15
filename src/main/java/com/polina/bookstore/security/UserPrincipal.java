@@ -1,6 +1,6 @@
 package com.polina.bookstore.security;
 
-import com.gmail.merikbest2015.ecommerce.domain.User;
+import com.polina.bookstore.domain.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

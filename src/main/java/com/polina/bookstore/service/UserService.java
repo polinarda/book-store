@@ -1,9 +1,8 @@
 package com.polina.bookstore.service;
 
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.domain.Review;
-import com.gmail.merikbest2015.ecommerce.domain.User;
-import graphql.schema.DataFetcher;
+import com.polina.bookstore.domain.Book;
+import com.polina.bookstore.domain.Review;
+import com.polina.bookstore.domain.User;
 
 import java.util.List;
 
@@ -13,15 +12,9 @@ public interface UserService {
 
     User findUserByEmail(String email);
 
-    DataFetcher<List<User>> getAllUsersByQuery();
-
-    DataFetcher<User> getUserByQuery();
-
     List<User> findAllUsers();
 
-    List<Perfume> getCart(List<Long> perfumeIds);
+    List<Book> getCart(List<Long> perfumeIds);
 
-    User updateProfile(String email, User user);
-
-    Perfume addReviewToPerfume(Review review, Long perfumeId);
+    Book addReviewToPerfume(Review review, Long perfumeId);
 }

@@ -1,13 +1,13 @@
 package com.polina.bookstore.mapper;
 
-import com.gmail.merikbest2015.ecommerce.domain.Review;
-import com.gmail.merikbest2015.ecommerce.domain.User;
-import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequest;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
-import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequest;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserRequest;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
-import com.gmail.merikbest2015.ecommerce.service.UserService;
+import com.polina.bookstore.domain.Review;
+import com.polina.bookstore.domain.User;
+import com.polina.bookstore.dto.RegistrationRequest;
+import com.polina.bookstore.dto.book.BookResponse;
+import com.polina.bookstore.dto.review.ReviewRequest;
+import com.polina.bookstore.dto.user.UserRequest;
+import com.polina.bookstore.dto.user.UserResponse;
+import com.polina.bookstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -18,9 +18,8 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class UserMapper {
-
     private final ModelMapper modelMapper;
-    private final PerfumeMapper perfumeMapper;
+    private final BookMapper bookMapper;
     private final UserService userService;
 
     private User convertToEntity(UserRequest userRequest) {
@@ -43,12 +42,16 @@ public class UserMapper {
         return convertToResponseDto(userService.findUserById(userId));
     }
 
+    public User findRawUserById(Long userId) {
+        return userService.findUserById(userId);
+    }
+
     public UserResponse findUserByEmail(String email) {
         return convertToResponseDto(userService.findUserByEmail(email));
     }
 
-    public List<PerfumeResponse> getCart(List<Long> perfumesIds) {
-        return perfumeMapper.convertListToResponseDto(userService.getCart(perfumesIds));
+    public List<BookResponse> getCart(List<Long> perfumesIds) {
+        return bookMapper.convertListToResponseDto(userService.getCart(perfumesIds));
     }
 
     public List<UserResponse> findAllUsers() {
@@ -58,11 +61,7 @@ public class UserMapper {
                 .collect(Collectors.toList());
     }
 
-    public UserResponse updateProfile(String email, UserRequest userRequest) {
-        return convertToResponseDto(userService.updateProfile(email, convertToEntity(userRequest)));
-    }
-
-    public PerfumeResponse addReviewToPerfume(ReviewRequest reviewRequest, Long perfumeId) {
-        return perfumeMapper.convertToResponseDto(userService.addReviewToPerfume(convertToEntity(reviewRequest), perfumeId));
+    public BookResponse addReviewToBook(ReviewRequest reviewRequest, Long perfumeId) {
+        return bookMapper.convertToResponseDto(userService.addReviewToPerfume(convertToEntity(reviewRequest), perfumeId));
     }
 }

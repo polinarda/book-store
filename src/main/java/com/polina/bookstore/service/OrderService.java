@@ -1,7 +1,6 @@
 package com.polina.bookstore.service;
 
-import com.gmail.merikbest2015.ecommerce.domain.Order;
-import graphql.schema.DataFetcher;
+import com.polina.bookstore.domain.Order;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,4 @@ public interface OrderService {
 
     List<Order> deleteOrder(Long orderId);
 
-    DataFetcher<List<Order>> getAllOrdersByQuery();
-
-    DataFetcher<List<Order>> getUserOrdersByEmailQuery();
 }
